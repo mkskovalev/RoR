@@ -9,7 +9,7 @@ side_3 = Integer(gets)
 
 sorted_sides = [side_1, side_2, side_3].sort
 
-pythagoras = (sorted_sides[2] ** 2) - ((sorted_sides[0] ** 2) + (sorted_sides[1] ** 2))
+pythagoras = (sorted_sides[2]**2) - ((sorted_sides[0]**2) + (sorted_sides[1]**2))
 
 if pythagoras == 0
   puts "Треугольник прямоугольный"

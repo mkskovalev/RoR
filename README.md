@@ -1,2 +1,2 @@
 # RoR
-RoR education in Thinknetica.ru
+RoR education in Thinknetica.com

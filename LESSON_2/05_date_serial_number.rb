@@ -27,17 +27,14 @@ year = gets.chomp.to_i
 
 def count_serial(month, serial, days_in_months, day)
   while month > 0    
-    serial = serial + days_in_months[month]
+    serial += days_in_months[month]
     month -= 1
   end
-  serial = serial + day
-  return serial
+  serial += day
 end
 
+days_in_months[2] = 29 if year % 400 == 0 || year % 4 == 0 && year % 100 != 0
 
-if year % 400 == 0 || year % 4 == 0 && year % 100 != 0
-  days_in_months[2] = 29
-  serial = count_serial(month, serial, days_in_months, day)
-else
-  serial = count_serial(month, serial, days_in_months, day)
-end
+serial = count_serial(month, serial, days_in_months, day)
+
+print serial

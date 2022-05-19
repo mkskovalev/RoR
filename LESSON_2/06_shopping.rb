@@ -18,10 +18,10 @@ end
 
 puts "\n#{product_list}\n\n"
 
-product_list.each {|name, price_quantity|
+product_list.each do |name, price_quantity|
   summ = (price_quantity["price"] * price_quantity["quantity"]).to_f
   puts "#{name} - #{price_quantity["price"]} x #{price_quantity["quantity"]} = #{summ}"
-  amount = amount + summ
-}
+  amount += summ
+end
 
-puts "Общая сумма: #{amount}\n"
+puts "Общая сумма: #{amount}"

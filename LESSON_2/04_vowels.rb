@@ -9,10 +9,10 @@ letters_array.each do |letter|
   num += 1
 end
 
-letters_hash.each {|key, value|
+letters_hash.each  do |key, value|
   vowels_list.each do |vowel|
     if key == vowel
       vowels_hash[key] = value
     end
   end
-}
+end

@@ -17,7 +17,7 @@ class Station
   def show_trains_by_type
     types = Hash.new(0)
     @trains.each { |train| types.store(train.type, types[train]+1) }
-    types.each { |key, value| puts "#{key} - #{value}"}
+    types.each { |key, value| puts "#{key} - #{value}" }
   end
 
   def remove_train(train)

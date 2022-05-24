@@ -1,23 +1,21 @@
 class Station
-  attr_reader :station_name
+  attr_reader :name, :trains
 
-  def initialize(station_name)
-    @station_name = station_name
+  def initialize(name)
+    @name = name
     @trains = []
   end
 
-  def get_train(train)
+  def add_train(train)
     @trains << train
   end
 
-  def show_trains
-    @trains.each { |train| puts train }
+  def trains_by_type(value)
+    @trains.select { |element| element.type == value }.to_a
   end
 
-  def show_trains_by_type
-    types = Hash.new(0)
-    @trains.each { |train| types.store(train.type, types[train]+1) }
-    types.each { |key, value| puts "#{key} - #{value}" }
+  def trains_count_by_type(value)
+    @trains.count { |element| element.type == value }
   end
 
   def remove_train(train)

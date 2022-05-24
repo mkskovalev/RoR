@@ -10,10 +10,10 @@ station_5 = Station.new("odintsovo")
 station_6 = Station.new("hovrino")
 station_7 = Station.new("ostankino")
 
-train_1 = Train.new(111, "грузовой", 12)
-train_2 = Train.new(117, "грузовой", 7)
-train_3 = Train.new(123, "пассажирский", 5)
-train_4 = Train.new(142, "пассажирский", 7)
+train_1 = Train.new(111, :cargo, 12)
+train_2 = Train.new(117, :cargo, 7)
+train_3 = Train.new(123, :passenger, 5)
+train_4 = Train.new(142, :passenger, 7)
 
 route_1 = Route.new(station_1, station_2)
 route_2 = Route.new(station_3, station_4)
@@ -59,8 +59,8 @@ train_1.delete_wagon
 puts train_1.wagons_count
 puts "\n"
 
-train_1.get_route(route_1)
-train_3.get_route(route_1)
+train_1.assign_route(route_1)
+train_3.assign_route(route_1)
 
 puts "станции в маршруте:"
 puts "предыдущая - #{train_1.prev_station}"
@@ -68,10 +68,13 @@ puts "текущая - #{train_1.current_station}"
 puts "следующая - #{train_1.next_station}"
 puts "\n"
 
-puts "поезда на станции station_1: \n#{station_1.show_trains}"
+puts "поезда на станции station_1:"
+puts station_1.trains
 puts "\n"
 
-puts "поезда по типам на станции station_1: \n#{station_1.show_trains_by_type}"
+puts "поезда по типам на станции station_1:"
+puts station_1.trains_by_type(:cargo)
+puts station_1.trains_count_by_type(:cargo)
 puts "\n"
 
 puts "перемещение:"
@@ -80,9 +83,6 @@ puts train_1.move_forward
 
 puts "станции в маршруте:"
 puts "предыдущая - #{train_1.prev_station}"
-puts "текущая - #{train_1.current_station.station_name}"
+puts "текущая - #{train_1.current_station.name}"
 puts "следующая - #{train_1.next_station}"
-puts "\n"
-
-puts "поезда по типам на станции station_1: \n#{station_1.show_trains_by_type}"
 puts "\n"

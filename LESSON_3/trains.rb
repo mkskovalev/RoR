@@ -7,7 +7,7 @@ class Train
     @train_number = train_number
     @type = type
     @wagons_count = wagons_count.to_i
-    @route = "Нет маршрута"
+    @route = nil
 
     raise "Ошибка в типе поезда" unless TRAIN_TYPE.include?(@type)
   end
@@ -36,19 +36,11 @@ class Train
   end
 
   def move_forward
-    if last_station?
-      "Последняя станция, двигаться вперед невозможно"
-    else
-       stations_update(1)     
-    end
+      stations_update(1) unless last_station?
   end
 
   def move_backward
-    if first_station?
-      "Первая станция, двигаться назад невозможно"
-    else
-      stations_update(-1)
-    end    
+    stations_update(-1) unless first_station?   
   end
 
   def stations_update(step)
@@ -67,18 +59,10 @@ class Train
   end
 
   def prev_station
-    if first_station?
-      "Нет предыдущей станции"
-    else
-      @route.stations[@station_index - 1]
-    end
+    @route.stations[@station_index - 1] unless first_station?
   end
 
   def next_station
-    if last_station?
-      "Нет следующей станции"
-    else
-      @route.stations[@station_index + 1]
-    end    
+    @route.stations[@station_index + 1] unless last_station?   
   end
 end

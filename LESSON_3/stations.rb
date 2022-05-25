@@ -11,7 +11,7 @@ class Station
   end
 
   def trains_by_type(value)
-    @trains.select { |element| element.type == value }.to_a
+    @trains.select { |element| element.type == value }
   end
 
   def trains_count_by_type(value)

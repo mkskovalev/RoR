@@ -21,20 +21,12 @@ class Train
   end
 
   def add_wagon
-    wagons_action(1)
+    @wagons_count += 1 unless @speed.zero?
   end
 
   def delete_wagon
-    wagons_action(-1)
-  end
-
-  def wagons_action(count)
-    if @speed == 0
-      @wagons_count += count
-    else 
-      puts "Сначала остановите поезд!" 
-    end
-  end  
+    @wagons_count -= 1 unless @speed.zero?
+  end 
 
   def assign_route(route)
     @route = route

@@ -6,7 +6,7 @@ class Train
   def initialize(train_number, type, wagons_count)
     @train_number = train_number
     @type = type
-    @wagons_count = wagons_count
+    @wagons_count = wagons_count.to_i
     @route = "Нет маршрута"
 
     raise "Ошибка в типе поезда" unless TRAIN_TYPE.include?(@type)
@@ -21,11 +21,11 @@ class Train
   end
 
   def add_wagon
-    @wagons_count += 1 unless @speed.zero?
+    @wagons_count += 1 if @speed.zero?
   end
 
   def delete_wagon
-    @wagons_count -= 1 unless @speed.zero?
+    @wagons_count -= 1 if @speed.zero?
   end 
 
   def assign_route(route)

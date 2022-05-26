@@ -1,9 +1,18 @@
+# frozen_string_literal: true
+
 class Station
   attr_reader :name, :trains
+
+  @@stations = []
 
   def initialize(name)
     @name = name
     @trains = []
+    @@stations.push(self)
+  end
+
+  def stations
+    @@stations
   end
 
   def add_train(train)

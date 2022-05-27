@@ -11,7 +11,7 @@ class Station
     @@stations.push(self)
   end
 
-  def stations
+  def self.all
     @@stations
   end
 

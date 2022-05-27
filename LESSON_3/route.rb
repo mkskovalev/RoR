@@ -12,7 +12,7 @@ class Route
     @@routes.push(self)
   end
 
-  def routes
+  def self.all
     @@routes
   end
 

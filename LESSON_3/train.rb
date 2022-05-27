@@ -1,24 +1,20 @@
 # frozen_string_literal: true
 
 class Train
-  attr_reader :speed, :current_station, :type, :wagons, :train_number, :route
-
-  TRAIN_TYPE = %i[cargo passenger].freeze
+  attr_reader :speed, :current_station, :wagons, :number, :route
 
   @@trains = []
 
-  def initialize(train_number, type)
-    @train_number = train_number
+  def initialize(number)
+    @number = number
     @type = type
     @speed = 0
     @wagons = []
     @route = nil
     @@trains.push(self)
-
-    raise 'Ошибка в типе поезда' unless TRAIN_TYPE.include?(@type)
   end
 
-  def trains
+  def self.all
     @@trains
   end
 
@@ -30,13 +26,8 @@ class Train
     @speed = 0
   end
 
-  def add_wagon
-    if @type.equal?(:passenger) && @speed.zero?
-      new_wagon = PassengerWagon.new
-    elsif @type.equal?(:cargo) && @speed.zero?
-      new_wagon = CargoWagon.new
-    end
-    @wagons.push(new_wagon)
+  def add_wagon(object)
+    @wagons << object
   end
 
   def delete_wagon

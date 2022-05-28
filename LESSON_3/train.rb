@@ -27,7 +27,7 @@ class Train
   end
 
   def add_wagon(object)
-    @wagons << object
+    @wagons << object if @type == object.type
   end
 
   def delete_wagon

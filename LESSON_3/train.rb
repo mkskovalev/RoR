@@ -27,7 +27,8 @@ class Train
   end
 
   def add_wagon(object)
-    @wagons << object if @type == object.type
+    return "Неверный тип вагона" unless @type == object.type
+    @wagons << object
   end
 
   def delete_wagon

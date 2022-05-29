@@ -10,14 +10,14 @@ class Interface
   attr_reader :create_station
   @@first_last_stations = []
 
-  def self.create_station
+  def create_station
     puts 'Введите название станции:'
     name = gets.chomp.to_s
     @station = Station.new(name)
     puts "Станция #{@station.name} создана"
   end
 
-  def self.add_station_to_route(count)
+  def add_station_to_route(count)
     message = ['Выберите начальную станцию и введите ее номер:', 'Выберите конечную станцию и введите ее номер:']
     else_message = ['Нет станций для выбора начальной, давайте создадим:',
                     'Нет станций для выбора конечной, давайте создадим:']
@@ -33,7 +33,7 @@ class Interface
     end
   end
 
-  def self.choose_station
+  def choose_station
     Station.all.each { |x| puts "#{Station.all.index(x)} - #{x.name}" }
     puts "#{Station.all.size} - Создать новую"
     @indx = gets.chomp.to_i
@@ -41,7 +41,7 @@ class Interface
     create_station if @indx == Station.all.size
   end
 
-  def self.choose_route
+  def choose_route
     if Route.all.empty?
       puts 'Маршрутов нет. Сначала создайте маршрут!'
     else
@@ -54,7 +54,7 @@ class Interface
     end
   end
 
-  def self.choose_train
+  def choose_train
     if Train.all.empty?
       puts 'Поездов нет. Сначала создайте поезд!'
     else
@@ -65,7 +65,7 @@ class Interface
     end
   end
 
-  def self.moving_train(mode)
+  def moving_train(mode)
     return if Train.all.empty?
 
     if @selected_train.route.nil?
@@ -81,7 +81,7 @@ class Interface
     end
   end
 
-  def self.create_train
+  def create_train
     puts 'Введите номер поезда:'
     number = gets.chomp.to_s
 
@@ -100,14 +100,14 @@ class Interface
     puts 'Поезд создан!'
   end
 
-  def self.create_route
+  def create_route
     add_station_to_route(0)
     add_station_to_route(1)
     @route = Route.new(@@first_last_stations[0], @@first_last_stations[1])
     puts 'Маршрут создан!'
   end
 
-  def self.edit_route
+  def edit_route
     choose_route
     puts 'Выберите действие:'
     puts '1 - Добавить станцию'
@@ -135,7 +135,7 @@ class Interface
     end
   end
 
-  def self.route_to_train
+  def route_to_train
     choose_train
     unless Train.all.empty?
       choose_route
@@ -146,7 +146,7 @@ class Interface
     end
   end
 
-  def self.add_wagon_to_train
+  def add_wagon_to_train
     choose_train
 
     if @selected_train.type.equal?(:passenger) && @selected_train.speed.zero?
@@ -159,7 +159,7 @@ class Interface
     puts "У поезда #{@selected_train.number} вагонов: #{@selected_train.wagons.size}"
   end
 
-  def self.delete_wagon_from_train
+  def delete_wagon_from_train
     choose_train
     unless Train.all.empty?
       @selected_train.delete_wagon
@@ -167,17 +167,17 @@ class Interface
     end
   end
 
-  def self.move_train_forward
+  def move_train_forward
     choose_train
     moving_train(:froward)
   end
 
-  def self.move_train_backward
+  def move_train_backward
     choose_train
     moving_train(:backward)
   end
 
-  def self.stations_and_trains_list
+  def stations_and_trains_list
     Station.all.each do |x|
       puts "Станция: #{x.name}, поезда:"
       if x.trains.empty?
@@ -188,57 +188,59 @@ class Interface
     end
   end
 
-  loop do
-    puts 'Выберите действие и введите номер:'
-    puts '1 - Создать станцию'
-    puts '2 - Создать поезд'
-    puts '3 - Cоздать маршрут'
-    puts '4 - Редактировать маршрут'
-    puts '5 - Назначить маршрут поезду'
-    puts '6 - Добавить вагон к поезду'
-    puts '7 - Отцепить вагон от поезда'
-    puts '8 - Переместить поезд вперед'
-    puts '9 - Переместить поезд назад'
-    puts '10 - Список станций и поездов'
-    puts '999 - Для завершения'
+  def run
+    loop do
+      puts 'Выберите действие и введите номер:'
+      puts '1 - Создать станцию'
+      puts '2 - Создать поезд'
+      puts '3 - Cоздать маршрут'
+      puts '4 - Редактировать маршрут'
+      puts '5 - Назначить маршрут поезду'
+      puts '6 - Добавить вагон к поезду'
+      puts '7 - Отцепить вагон от поезда'
+      puts '8 - Переместить поезд вперед'
+      puts '9 - Переместить поезд назад'
+      puts '10 - Список станций и поездов'
+      puts '999 - Для завершения'
 
-    action = gets.chomp.to_i
+      action = gets.chomp.to_i
 
-    break if action == 999
+      break if action == 999
 
-    case action
-    when 1
-      create_station
+      case action
+      when 1
+        self.create_station
 
-    when 2
-      create_train
+      when 2
+        self.create_train
 
-    when 3
-      create_route
+      when 3
+        self.create_route
 
-    when 4
-      edit_route
+      when 4
+        self.edit_route
 
-    when 5
-      route_to_train
+      when 5
+        self.route_to_train
 
-    when 6
-      add_wagon_to_train
+      when 6
+        self.add_wagon_to_train
 
-    when 7
-      delete_wagon_from_train
+      when 7
+        self.delete_wagon_from_train
 
-    when 8
-      move_train_forward
+      when 8
+        self.move_train_forward
 
-    when 9
-      move_train_backward
+      when 9
+        self.move_train_backward
 
-    when 10
-      stations_and_trains_list
+      when 10
+        self.stations_and_trains_list
 
-    else
-      puts 'Введено неправильное значение'
+      else
+        puts 'Введено неправильное значение'
+      end
     end
-  end  
+  end
 end

@@ -2,4 +2,4 @@
 
 require './interface'
 
-Interface.new
+Interface.new.run

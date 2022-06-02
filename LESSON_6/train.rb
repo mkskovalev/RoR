@@ -85,8 +85,6 @@ class Train
   end
 
   def self.find(num)
-    numbers = {}
-    @@trains.each { |train| numbers[train.number] = train }
-    numbers.has_key?(num) ? numbers[num] : nil
-  end
+    @@trains.find { |obj| obj.number == num }
+  end  
 end

@@ -13,7 +13,8 @@ module InstanceCounter
 
   module InstanceMethods
     def register_instance
-      @@instances += 1
+      new = self.class.class_variable_get('@@instances') + 1
+      self.class.class_variable_set('@@instances', new)
     end
   end
 end

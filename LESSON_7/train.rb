@@ -19,7 +19,7 @@ class Train
     @route = nil
     @@trains.push(self)
     register_instance
-    validate!
+    validate!   
   end
 
   def self.all
@@ -91,6 +91,6 @@ class Train
   end 
 
   def validate!
-    raise 'Неверный формат номера поезда' if number !~ /^[A-Za-z0-9]{3}-*[A-Za-z0-9]{2}$/
-  end    
+    raise if number !~ /^[A-Za-z0-9]{3}-*[A-Za-z0-9]{2}$/
+  end
 end

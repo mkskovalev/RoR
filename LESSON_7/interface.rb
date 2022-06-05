@@ -32,34 +32,34 @@ class Interface
 
       case action
       when 1
-        self.create_station
+        create_station
 
       when 2
-        self.create_train
+        create_train
 
       when 3
-        self.create_route
+        create_route
 
       when 4
-        self.edit_route
+        edit_route
 
       when 5
-        self.route_to_train
+        route_to_train
 
       when 6
-        self.add_wagon_to_train
+        add_wagon_to_train
 
       when 7
-        self.delete_wagon_from_train
+        delete_wagon_from_train
 
       when 8
-        self.move_train_forward
+        move_train_forward
 
       when 9
-        self.move_train_backward
+        move_train_backward
 
       when 10
-        self.stations_and_trains_list
+        stations_and_trains_list
 
       else
         puts 'Введено неправильное значение'
@@ -83,11 +83,11 @@ class Interface
 
     if Station.all.empty?
       puts else_message[count]
-      create_station
+      self.create_station
       @@first_last_stations << Station.all.last
     else
       puts message[count]
-      choose_station
+      self.choose_station
       @@first_last_stations << Station.all[@indx]
     end
   end
@@ -141,34 +141,28 @@ class Interface
   end
 
   def create_train
-    begin
-      puts 'Введите номер поезда:'
-      number = gets.chomp.to_s
-      raise if number !~ /^[A-Za-z0-9]{3}-*[A-Za-z0-9]{2}$/
-    rescue RuntimeError
-      puts "Введенные данные не корректны, попробуйте еще раз."
-      retry
-    end
+    puts 'Введите номер поезда:'
+    number = gets.chomp.to_s
 
-    begin
-      puts 'Введите выберите тип поезда и введите номер:'
-      puts '1 - Пассажирский'
-      puts '2 - Грузовой'
-      type = gets.chomp.to_i
-      raise if type !~ /[12]/
-    rescue
-      puts "Введен некорректный номер, выберите номер из списка."
-      retry
-    end
+    puts 'Введите выберите тип поезда и введите номер:'
+    puts '1 - Пассажирский'
+    puts '2 - Грузовой'
+    type = gets.chomp.to_i
 
     case type
     when 1
       @train = PassengerTrain.new(number)
     when 2
       @train = CargoTrain.new(number)
-    end
+    else
+      puts "Введено неверное значение!"
+    end  
 
     puts 'Поезд создан!'
+
+  rescue
+    puts "Неверный формат номера поезда. Попробуйте еще раз."
+    retry
   end
 
   def create_route

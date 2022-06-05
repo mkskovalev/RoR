@@ -16,6 +16,7 @@ class Route
     @stations = [first_station, last_station]
     @@routes.push(self)
     register_instance
+    validate!
   end
 
   def self.all
@@ -32,5 +33,9 @@ class Route
 
   def show_stations
     @stations.each { |station| puts station.name }
-  end  
+  end
+
+  def validate!
+    raise if first_station == nil || last_station == nil
+  end
 end

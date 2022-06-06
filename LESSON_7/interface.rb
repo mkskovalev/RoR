@@ -9,7 +9,9 @@ require './cargo_wagon'
 
 class Interface
 
-  @@first_last_stations = []
+  def initialize
+    @first_last_stations = []
+  end
 
   def run
     loop do
@@ -84,11 +86,11 @@ class Interface
     if Station.all.empty?
       puts else_message[count]
       self.create_station
-      @@first_last_stations << Station.all.last
+      @first_last_stations << Station.all.last
     else
       puts message[count]
       self.choose_station
-      @@first_last_stations << Station.all[@indx]
+      @first_last_stations << Station.all[@indx]
     end
   end
 
@@ -168,7 +170,7 @@ class Interface
   def create_route
     add_station_to_route(0)
     add_station_to_route(1)
-    @route = Route.new(@@first_last_stations[0], @@first_last_stations[1])
+    @route = Route.new(@first_last_stations[0], @first_last_stations[1])
     puts 'Маршрут создан!'
   end
 

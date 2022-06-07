@@ -8,6 +8,7 @@ loop do
   fibo = (golden_ratio**count - (1 - golden_ratio)**count) / sqrt
   count += 1
   break if fibo > 100
+
   array.push(fibo.to_i)
 end
 

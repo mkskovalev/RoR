@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 require './modules/instance_counter'
 require './modules/valid'
 
@@ -41,5 +42,5 @@ class Station
   def validate!
     raise 'Слишком короткое название' if name.length < 2
     raise 'Использование специальных символов запрещено' if name !~ /^[A-Za-z0-9.&]*\z/
-  end 
+  end
 end

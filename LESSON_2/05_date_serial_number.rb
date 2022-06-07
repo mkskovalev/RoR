@@ -15,18 +15,18 @@ days_in_months = {
 
 serial = 0
 
-puts "Введите день:"
+puts 'Введите день:'
 day = gets.chomp.to_i
 
-puts "Введите месяц:"
+puts 'Введите месяц:'
 month = gets.chomp.to_i
-month = month - 1
+month -= 1
 
-puts "Введите год:"
+puts 'Введите год:'
 year = gets.chomp.to_i
 
 def count_serial(month, serial, days_in_months, day)
-  while month > 0    
+  while month > 0
     serial += days_in_months[month]
     month -= 1
   end

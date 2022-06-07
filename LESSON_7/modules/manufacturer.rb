@@ -3,5 +3,5 @@ module Manufacturer
 
   def add_manufacturer(name)
     @manufacturer = name
-  end   
+  end
 end

@@ -1,7 +1,7 @@
-print "Введите ваше имя: "
+print 'Введите ваше имя: '
 user_name = gets.chomp
 
-print "Введите ваш рост: "
+print 'Введите ваш рост: '
 height = Integer(gets)
 
 ideal_weight = (height - 110) * 1.15

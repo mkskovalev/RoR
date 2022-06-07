@@ -8,7 +8,6 @@ require './passenger_wagon'
 require './cargo_wagon'
 
 class Interface
-
   def initialize
     @first_last_stations = []
   end
@@ -85,11 +84,11 @@ class Interface
 
     if Station.all.empty?
       puts else_message[count]
-      self.create_station
+      create_station
       @first_last_stations << Station.all.last
     else
       puts message[count]
-      self.choose_station
+      choose_station
       @first_last_stations << Station.all[@indx]
     end
   end
@@ -157,13 +156,12 @@ class Interface
     when 2
       @train = CargoTrain.new(number)
     else
-      puts "Введено неверное значение!"
-    end  
+      puts 'Введено неверное значение!'
+    end
 
     puts 'Поезд создан!'
-
-  rescue
-    puts "Неверный формат номера поезда. Попробуйте еще раз."
+  rescue StandardError
+    puts 'Неверный формат номера поезда. Попробуйте еще раз.'
     retry
   end
 
@@ -253,5 +251,5 @@ class Interface
         x.trains.each { |t| puts t.number }
       end
     end
-  end  
+  end
 end

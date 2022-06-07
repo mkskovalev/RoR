@@ -1,7 +1,8 @@
 # frozen_string_literal: true
+
 require './modules/manufacturer'
 require './modules/instance_counter'
-require './modules/valid.rb'
+require './modules/valid'
 
 class Train
   include Manufacturer
@@ -19,7 +20,7 @@ class Train
     @route = nil
     @@trains.push(self)
     register_instance
-    validate!   
+    validate!
   end
 
   def self.all
@@ -88,7 +89,7 @@ class Train
 
   def self.find(num)
     @@trains.find { |obj| obj.number == num }
-  end 
+  end
 
   def validate!
     raise if number !~ /^[A-Za-z0-9]{3}-*[A-Za-z0-9]{2}$/

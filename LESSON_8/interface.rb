@@ -8,7 +8,9 @@ require './passenger_wagon'
 require './cargo_wagon'
 
 class Interface
-  @@first_last_stations = []
+  def initialize
+    @first_last_stations = []
+  end
 
   def run
     loop do
@@ -23,6 +25,8 @@ class Interface
       puts '8 - Переместить поезд вперед'
       puts '9 - Переместить поезд назад'
       puts '10 - Список станций и поездов'
+      puts '11 - Список вагонов у поезда'
+      puts '12 - Список поездов на станции'
       puts '999 - Для завершения'
 
       action = gets.chomp.to_i
@@ -60,6 +64,12 @@ class Interface
       when 10
         stations_and_trains_list
 
+      when 11
+        show_wagons
+
+      when 12
+        show_trains_on_station
+
       else
         puts 'Введено неправильное значение'
       end
@@ -83,11 +93,11 @@ class Interface
     if Station.all.empty?
       puts else_message[count]
       create_station
-      @@first_last_stations << Station.all.last
+      @first_last_stations << Station.all.last
     else
       puts message[count]
       choose_station
-      @@first_last_stations << Station.all[@indx]
+      @first_last_stations << Station.all[@indx]
     end
   end
 
@@ -153,15 +163,20 @@ class Interface
       @train = PassengerTrain.new(number)
     when 2
       @train = CargoTrain.new(number)
+    else
+      puts 'Введено неверное значение!'
     end
 
     puts 'Поезд создан!'
+  rescue StandardError
+    puts 'Неверный формат номера поезда. Попробуйте еще раз.'
+    retry
   end
 
   def create_route
     add_station_to_route(0)
     add_station_to_route(1)
-    @route = Route.new(@@first_last_stations[0], @@first_last_stations[1])
+    @route = Route.new(@first_last_stations[0], @first_last_stations[1])
     puts 'Маршрут создан!'
   end
 
@@ -208,9 +223,13 @@ class Interface
     choose_train
 
     if @selected_train.type.equal?(:passenger) && @selected_train.speed.zero?
-      new_wagon = PassengerWagon.new
+      puts 'Укажите кол-во мест в вагоне:'
+      count = gets.chomp.to_i
+      new_wagon = PassengerWagon.new(count)
     elsif @selected_train.type.equal?(:cargo) && @selected_train.speed.zero?
-      new_wagon = CargoWagon.new
+      puts 'Укажите объем вагона в куб. м.:'
+      count = gets.chomp.to_i
+      new_wagon = CargoWagon.new(count)
     end
 
     @selected_train.add_wagon(new_wagon)
@@ -244,5 +263,24 @@ class Interface
         x.trains.each { |t| puts t.number }
       end
     end
+  end
+
+  def show_wagons
+    choose_train
+    @number = 0
+    if @selected_train.type.equal?(:passenger)
+      @selected_train.all_wagons do |w|
+        puts "Вагон №#{@number += 1}, тип: #{w.type}, св. мест: #{w.free_seats}, занято мест: #{w.occupied_seats}"
+      end
+    elsif @selected_train.type.equal?(:cargo)
+      @selected_train.all_wagons do |w|
+        puts "Вагон №#{@number += 1}, тип: #{w.type}, св. объем: #{w.free_volume}, занято объема: #{w.occupied_volume}"
+      end
+    end
+  end
+
+  def show_trains_on_station
+    choose_station
+    Station.all[@indx].all_trains { |t| puts "Поезд №#{t.number}, тип: #{t.type}, вагонов: #{t.wagons.size}" }
   end
 end

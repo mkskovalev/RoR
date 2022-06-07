@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 require './modules/manufacturer'
 require './modules/instance_counter'
 
@@ -32,7 +33,8 @@ class Train
   end
 
   def add_wagon(object)
-    return "Неверный тип вагона" unless @type == object.type
+    return 'Неверный тип вагона' unless @type == object.type
+
     @wagons << object
   end
 
@@ -86,5 +88,5 @@ class Train
 
   def self.find(num)
     @@trains.find { |obj| obj.number == num }
-  end  
+  end
 end

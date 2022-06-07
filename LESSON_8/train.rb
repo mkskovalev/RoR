@@ -1,17 +1,26 @@
 # frozen_string_literal: true
 
+require './modules/manufacturer'
+require './modules/instance_counter'
+require './modules/valid'
+
 class Train
+  include Manufacturer
+  include InstanceCounter
+  include Valid
+
   attr_reader :speed, :current_station, :wagons, :number, :route
 
   @@trains = []
 
   def initialize(number)
-    @number = number
-    @type = type
+    @number = number.to_s
     @speed = 0
     @wagons = []
     @route = nil
     @@trains.push(self)
+    register_instance
+    validate!
   end
 
   def self.all
@@ -27,9 +36,7 @@ class Train
   end
 
   def add_wagon(object)
-    return 'Неверный тип вагона' unless @type == object.type
-
-    @wagons << object
+    @wagons << object if @type == object.type
   end
 
   def delete_wagon
@@ -59,6 +66,10 @@ class Train
     @route.stations[@station_index + 1] unless last_station?
   end
 
+  def all_wagons(&block)
+    @wagons.each(&block)
+  end
+
   protected
 
   # Подметод метода move_*, не вызывается сам по себе
@@ -78,5 +89,13 @@ class Train
 
   def last_station?
     @current_station == @route.stations[-1]
+  end
+
+  def self.find(num)
+    @@trains.find { |obj| obj.number == num }
+  end
+
+  def validate!
+    raise if number !~ /^[A-Za-z0-9]{3}-*[A-Za-z0-9]{2}$/
   end
 end

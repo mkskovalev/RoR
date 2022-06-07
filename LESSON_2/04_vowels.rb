@@ -1,5 +1,5 @@
-vowels_list = ["a", "e", "i", "o", "u"]
-letters_array = ("a".."z").to_a
+vowels_list = %w[a e i o u]
+letters_array = ('a'..'z').to_a
 num = 1
 letters_hash = {}
 vowels_hash = {}
@@ -11,8 +11,6 @@ end
 
 letters_hash.each  do |key, value|
   vowels_list.each do |vowel|
-    if key == vowel
-      vowels_hash[key] = value
-    end
+    vowels_hash[key] = value if key == vowel
   end
 end

@@ -8,6 +8,7 @@ require './cargo_wagon'
 
 class Interface
   attr_reader :create_station
+
   @@first_last_stations = []
 
   def create_station
@@ -209,34 +210,34 @@ class Interface
 
       case action
       when 1
-        self.create_station
+        create_station
 
       when 2
-        self.create_train
+        create_train
 
       when 3
-        self.create_route
+        create_route
 
       when 4
-        self.edit_route
+        edit_route
 
       when 5
-        self.route_to_train
+        route_to_train
 
       when 6
-        self.add_wagon_to_train
+        add_wagon_to_train
 
       when 7
-        self.delete_wagon_from_train
+        delete_wagon_from_train
 
       when 8
-        self.move_train_forward
+        move_train_forward
 
       when 9
-        self.move_train_backward
+        move_train_backward
 
       when 10
-        self.stations_and_trains_list
+        stations_and_trains_list
 
       else
         puts 'Введено неправильное значение'

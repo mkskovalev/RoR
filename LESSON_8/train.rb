@@ -70,6 +70,10 @@ class Train
     @wagons.each(&block)
   end
 
+  def self.find(num)
+    @@trains.find { |obj| obj.number == num }
+  end
+
   protected
 
   # Подметод метода move_*, не вызывается сам по себе
@@ -91,11 +95,9 @@ class Train
     @current_station == @route.stations[-1]
   end
 
-  def self.find(num)
-    @@trains.find { |obj| obj.number == num }
-  end
-
   def validate!
     raise if number !~ /^[A-Za-z0-9]{3}-*[A-Za-z0-9]{2}$/
   end
+
+  private_class_method :find
 end

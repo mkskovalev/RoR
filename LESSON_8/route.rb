@@ -7,14 +7,14 @@ class Route
   include InstanceCounter
   include Valid
 
-  attr_reader :stations, :first_station, :last_station
+  attr_reader :stations, :first, :last
 
   @@routes = []
 
-  def initialize(first_station, last_station)
-    @first_station = first_station
-    @last_station = last_station
-    @stations = [first_station, last_station]
+  def initialize(first, last)
+    @first = first
+    @last = last
+    @stations = [first, last]
     @@routes.push(self)
     register_instance
     validate!
@@ -29,7 +29,7 @@ class Route
   end
 
   def remove_station(station)
-    @stations.delete(station) unless [@first_station, @last_station].include?(station)
+    @stations.delete(station) unless [@first, @last].include?(station)
   end
 
   def show_stations
@@ -37,6 +37,6 @@ class Route
   end
 
   def validate!
-    raise if first_station.nil? || last_station.nil?
+    raise if first.nil? || last.nil?
   end
 end

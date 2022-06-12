@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require './route'
 require './train'
 require './wagon'
@@ -27,13 +29,13 @@ class Interface
       puts '10 - Список станций и поездов'
       puts '11 - Список вагонов у поезда'
       puts '12 - Список поездов на станции'
-      puts '999 - Для завершения'
+      puts '0 - Для завершения'
 
-      action = gets.chomp.to_i
+      input = gets.chomp.to_i
 
-      break if action == 999
+      break if input.zero?
 
-      case action
+      case input
       when 1
         create_station
 
@@ -80,18 +82,16 @@ class Interface
 
   def create_station
     puts 'Введите название станции:'
-    name = gets.chomp.to_s
-    @station = Station.new(name)
+    input = gets.chomp.to_s
+    @station = Station.new(input)
     puts "Станция #{@station.name} создана"
   end
 
   def add_station_to_route(count)
     message = ['Выберите начальную станцию и введите ее номер:', 'Выберите конечную станцию и введите ее номер:']
-    else_message = ['Нет станций для выбора начальной, давайте создадим:',
-                    'Нет станций для выбора конечной, давайте создадим:']
 
     if Station.all.empty?
-      puts else_message[count]
+      puts 'Нет станций, давайте создадим!'
       create_station
       @first_last_stations << Station.all.last
     else
@@ -114,11 +114,9 @@ class Interface
       puts 'Маршрутов нет. Сначала создайте маршрут!'
     else
       puts 'Выберите маршрут и введите его номер:'
-      Route.all.each do |value|
-        puts "#{Route.all.index(value)} - #{value.first_station.name}-#{value.last_station.name}"
-      end
-      selected_number = gets.chomp.to_i
-      @selected_route = Route.all[selected_number]
+      Route.all.each { |v| puts "#{Route.all.index(v)} - #{v.first.name}-#{v.last.name}" }
+      input = gets.chomp.to_i
+      @selected_route = Route.all[input]
     end
   end
 
@@ -128,8 +126,8 @@ class Interface
     else
       puts 'Выберите поезд и введите его номер:'
       Train.all.each { |x| puts "#{Train.all.index(x)} - Поезд №#{x.number}" }
-      selected_number = gets.chomp.to_i
-      @selected_train = Train.all[selected_number]
+      input = gets.chomp.to_i
+      @selected_train = Train.all[input]
     end
   end
 
@@ -185,9 +183,9 @@ class Interface
     puts 'Выберите действие:'
     puts '1 - Добавить станцию'
     puts '2 - Удалить станцию'
-    selected_action = gets.chomp.to_i
+    input = gets.chomp.to_i
 
-    case selected_action
+    case input
     when 1
       puts 'Выберите станцию:'
       choose_station
@@ -198,8 +196,8 @@ class Interface
       puts 'Выберите станцию и введите ее номер:'
       stat = @selected_route.stations
       stat.each { |x| puts "#{stat.index(x)} - #{x.name}" unless [stat[0], stat[-1]].include?(x) }
-      @indx = gets.chomp.to_i
-      @selected_station = stat[@indx]
+      input = gets.chomp.to_i
+      @selected_station = stat[input]
       @selected_route.remove_station(@selected_station)
       puts 'Станция удалена!'
 
@@ -214,7 +212,7 @@ class Interface
       choose_route
       unless Route.all.empty?
         @selected_train.assign_route(@selected_route)
-        puts "Маршрут #{@selected_route.first_station.name}-#{@selected_route.last_station.name} назначен поезду №#{@selected_train.number}"
+        puts "Маршрут #{@selected_route.first.name}-#{@selected_route.last.name} назначен поезду №#{@selected_train.number}"
       end
     end
   end
@@ -224,12 +222,12 @@ class Interface
 
     if @selected_train.type.equal?(:passenger) && @selected_train.speed.zero?
       puts 'Укажите кол-во мест в вагоне:'
-      count = gets.chomp.to_i
-      new_wagon = PassengerWagon.new(count)
+      input = gets.chomp.to_i
+      new_wagon = PassengerWagon.new(input)
     elsif @selected_train.type.equal?(:cargo) && @selected_train.speed.zero?
       puts 'Укажите объем вагона в куб. м.:'
-      count = gets.chomp.to_i
-      new_wagon = CargoWagon.new(count)
+      input = gets.chomp.to_i
+      new_wagon = CargoWagon.new(input)
     end
 
     @selected_train.add_wagon(new_wagon)
@@ -268,11 +266,12 @@ class Interface
   def show_wagons
     choose_train
     @number = 0
-    if @selected_train.type.equal?(:passenger)
+    case @selected_train.type
+    when :passenger
       @selected_train.all_wagons do |w|
         puts "Вагон №#{@number += 1}, тип: #{w.type}, св. мест: #{w.free_seats}, занято мест: #{w.occupied_seats}"
       end
-    elsif @selected_train.type.equal?(:cargo)
+    when :cargo
       @selected_train.all_wagons do |w|
         puts "Вагон №#{@number += 1}, тип: #{w.type}, св. объем: #{w.free_volume}, занято объема: #{w.occupied_volume}"
       end

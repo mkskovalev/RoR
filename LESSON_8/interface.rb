@@ -35,46 +35,65 @@ class Interface
 
       break if input.zero?
 
-      case input
-      when 1
-        create_station
-
-      when 2
-        create_train
-
-      when 3
-        create_route
-
-      when 4
-        edit_route
-
-      when 5
-        route_to_train
-
-      when 6
-        add_wagon_to_train
-
-      when 7
-        delete_wagon_from_train
-
-      when 8
-        move_train_forward
-
-      when 9
-        move_train_backward
-
-      when 10
-        stations_and_trains_list
-
-      when 11
-        show_wagons
-
-      when 12
-        show_trains_on_station
-
-      else
-        puts 'Введено неправильное значение'
+      def find_command
+        {
+          1 => :create_station,
+          2 => :create_train,
+          3 => :create_route,
+          4 => :edit_route,
+          5 => :route_to_train,
+          6 => :add_wagon_to_train,
+          7 => :delete_wagon_from_train,
+          8 => :move_train_forward,
+          9 => :move_train_backward,
+          10 => :stations_and_trains_list,
+          11 => :show_wagons,
+          12 => :show_trains_on_station
+        }      
       end
+
+      send find_command.fetch(input.to_i, "Неверное значение")
+
+      # case input
+      # when 1
+      #   create_station
+
+      # when 2
+      #   create_train
+
+      # when 3
+      #   create_route
+
+      # when 4
+      #   edit_route
+
+      # when 5
+      #   route_to_train
+
+      # when 6
+      #   add_wagon_to_train
+
+      # when 7
+      #   delete_wagon_from_train
+
+      # when 8
+      #   move_train_forward
+
+      # when 9
+      #   move_train_backward
+
+      # when 10
+      #   stations_and_trains_list
+
+      # when 11
+      #   show_wagons
+
+      # when 12
+      #   show_trains_on_station
+
+      # else
+      #   puts 'Введено неправильное значение'
+      # end
     end
   end
 

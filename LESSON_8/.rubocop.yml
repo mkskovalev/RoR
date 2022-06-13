@@ -1,0 +1,9 @@
+AllCops:
+  Exclude:
+    - 'interface.rb'
+
+Style/Documentation:
+  Enabled: false
+
+Style/ClassVars:
+  Enabled: false

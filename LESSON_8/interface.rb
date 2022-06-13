@@ -186,6 +186,7 @@ class Interface
 
   def route_to_train
     choose_train
+    
     unless Train.all.empty?
       choose_route
       unless Route.all.empty?

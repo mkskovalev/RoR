@@ -23,9 +23,15 @@ class Train
     validate!
   end
 
-  def self.all
-    @@trains
-  end
+  class << self
+    def all
+      @@trains
+    end
+
+    def find(num)
+      @@trains.find { |obj| obj.number == num }
+    end
+  end   
 
   def add_speed(speed)
     @speed = speed.to_i
@@ -68,10 +74,6 @@ class Train
 
   def all_wagons(&block)
     @wagons.each(&block)
-  end
-
-  def self.find(num)
-    @@trains.find { |obj| obj.number == num }
   end
 
   protected

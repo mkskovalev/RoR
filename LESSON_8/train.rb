@@ -2,14 +2,19 @@
 
 require './modules/manufacturer'
 require './modules/instance_counter'
-require './modules/valid'
+require './modules/accessors'
+require './modules/validation'
 
 class Train
   include Manufacturer
   include InstanceCounter
-  include Valid
+  include Acсessors
+  include Validation
 
   attr_reader :speed, :current_station, :wagons, :number, :route
+  attr_accessor_with_history :a, :b, :c
+  validate :number, :presence
+  validate :number, :format, /^[A-Za-z0-9]{3}-*[A-Za-z0-9]{2}$/
 
   @@trains = []
 
@@ -95,10 +100,6 @@ class Train
 
   def last_station?
     @current_station == @route.stations[-1]
-  end
-
-  def validate!
-    raise if number !~ /^[A-Za-z0-9]{3}-*[A-Za-z0-9]{2}$/
   end
 
   private_class_method :find

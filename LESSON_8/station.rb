@@ -1,13 +1,16 @@
 # frozen_string_literal: true
 
 require './modules/instance_counter'
-require './modules/valid'
+require './modules/validation'
 
 class Station
   include InstanceCounter
-  include Valid
+  include Validation
 
-  attr_reader :name, :trains
+  attr_accessor :name
+  attr_reader :trains
+  validate :name, :presence
+  validate :name, :type, String
 
   @@stations = []
 
@@ -41,10 +44,5 @@ class Station
 
   def all_trains(&block)
     @trains.each(&block)
-  end
-
-  def validate!
-    raise 'Слишком короткое название' if name.length < 2
-    raise 'Использование специальных символов запрещено' if name !~ /^[A-Za-z0-9.&]*\z/
   end
 end

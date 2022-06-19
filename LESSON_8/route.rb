@@ -1,13 +1,15 @@
 # frozen_string_literal: true
 
 require './modules/instance_counter'
-require './modules/valid'
+require './modules/validation'
 
 class Route
   include InstanceCounter
-  include Valid
+  include Validation
 
   attr_reader :stations, :first, :last
+  validate :first, :presence
+  validate :last, :presence
 
   @@routes = []
 
@@ -34,9 +36,5 @@ class Route
 
   def show_stations
     @stations.each { |station| puts station.name }
-  end
-
-  def validate!
-    raise if first.nil? || last.nil?
   end
 end

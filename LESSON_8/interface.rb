@@ -8,10 +8,17 @@ require './passenger_train'
 require './cargo_train'
 require './passenger_wagon'
 require './cargo_wagon'
+require './modules/validation'
 
 class Interface
+  include Validation
+
+  attr_reader :input
+  validate :input, :presence
+
   def initialize
     @first_last_stations = []
+    @input = nil
   end
 
   def run
@@ -31,7 +38,7 @@ class Interface
       puts '12 - Список поездов на станции'
       puts '0 - Для завершения'
 
-      input = gets.chomp.to_i
+      @input = gets.chomp.to_i
 
       break if input.zero?
 
@@ -60,9 +67,12 @@ class Interface
 
   def create_station
     puts 'Введите название станции:'
-    input = gets.chomp.to_s
-    @station = Station.new(input)
+    @input = gets.chomp.to_s
+    @station = Station.new(@input)
     puts "Станция #{@station.name} создана"
+  rescue => e
+    puts e
+    retry
   end
 
   def add_station_to_route(count)

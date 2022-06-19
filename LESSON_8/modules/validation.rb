@@ -5,11 +5,17 @@ module Validation
   end
 
   module ClassMethods
-    @@arr = []
-    def validate(*args)
-      @@arr.push(args)
-      class_variable_set(:@@args, @@arr)
+    def arr
+      @arr ||= []
     end
+
+    def validate(*args)
+      arr.push(args)
+    end
+
+    private
+
+    attr_writer :arr
   end
 
   module InstanceMethods
@@ -23,7 +29,7 @@ module Validation
     protected
 
     def validate!
-      self.class.class_variable_get(:@@args).each do |array|
+      self.class.arr.each do |array|
         name = "@#{array[0]}".to_sym
         type = array[1].to_s
         param = array[2] unless array[2].nil?

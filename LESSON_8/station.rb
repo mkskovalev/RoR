@@ -7,8 +7,7 @@ class Station
   include InstanceCounter
   include Validation
 
-  attr_accessor :name
-  attr_reader :trains
+  attr_reader :name, :trains
   validate :name, :presence
   validate :name, :type, String
 

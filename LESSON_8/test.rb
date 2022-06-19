@@ -10,18 +10,20 @@ require './passenger_wagon'
 require './cargo_wagon'
 
 
-tr1 = Train.new(12312)
-# tr2 = Train.new("123")
-# tr3 = Train.new("")
+begin
+  tr1 = Train.new(nil)
+rescue => e
+  puts e
+end
 
-# st1 = Station.new("msk")
-# st2 = Station.new(123)
+begin
+  tr2 = Train.new(123)
+rescue => e
+  puts e
+end
 
-# rt1 = Route.new("", "")
-
-# cw1 = CargoWagon.new(25)
-# cw2 = CargoWagon.new("")
-
-# cw1 = PassengerWagon.new(25)
-# cw2 = PassengerWagon.new("")
-
+begin
+  st = Station.new(123)
+rescue => e
+  puts e
+end

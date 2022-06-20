@@ -13,12 +13,8 @@ require './modules/validation'
 class Interface
   include Validation
 
-  attr_reader :input
-  validate :input, :presence
-
   def initialize
     @first_last_stations = []
-    @input = nil
   end
 
   def run
@@ -38,26 +34,9 @@ class Interface
       puts '12 - Список поездов на станции'
       puts '0 - Для завершения'
 
-      @input = gets.chomp.to_i
+      input = gets.chomp.to_i
 
       break if input.zero?
-
-      def find_command
-        {
-          1 => :create_station,
-          2 => :create_train,
-          3 => :create_route,
-          4 => :edit_route,
-          5 => :route_to_train,
-          6 => :add_wagon_to_train,
-          7 => :delete_wagon_from_train,
-          8 => :move_train_forward,
-          9 => :move_train_backward,
-          10 => :stations_and_trains_list,
-          11 => :show_wagons,
-          12 => :show_trains_on_station
-        }      
-      end
 
       send find_command.fetch(input.to_i, "Неверное значение")
     end
@@ -67,8 +46,8 @@ class Interface
 
   def create_station
     puts 'Введите название станции:'
-    @input = gets.chomp.to_s
-    @station = Station.new(@input)
+    input = gets.chomp
+    @station = Station.new(input)
     puts "Станция #{@station.name} создана"
   rescue => e
     puts e
@@ -164,6 +143,8 @@ class Interface
     add_station_to_route(1)
     @route = Route.new(@first_last_stations[0], @first_last_stations[1])
     puts 'Маршрут создан!'
+  rescue => e
+    puts e
   end
 
   def edit_route
@@ -270,5 +251,24 @@ class Interface
   def show_trains_on_station
     choose_station
     Station.all[@indx].all_trains { |t| puts "Поезд №#{t.number}, тип: #{t.type}, вагонов: #{t.wagons.size}" }
+  end
+
+  private
+
+  def find_command
+    {
+      1 => :create_station,
+      2 => :create_train,
+      3 => :create_route,
+      4 => :edit_route,
+      5 => :route_to_train,
+      6 => :add_wagon_to_train,
+      7 => :delete_wagon_from_train,
+      8 => :move_train_forward,
+      9 => :move_train_backward,
+      10 => :stations_and_trains_list,
+      11 => :show_wagons,
+      12 => :show_trains_on_station
+    }
   end
 end

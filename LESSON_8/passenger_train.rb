@@ -1,10 +1,15 @@
 # frozen_string_literal: true
+require './modules/validation'
 
 class PassengerTrain < Train
+  include Validation
+
   attr_reader :type
+  validate :number, :presence
+  validate :number, :format, /^[A-Za-z0-9]{3}-*[A-Za-z0-9]{2}$/
 
   def initialize(number)
-    super()
+    super
     @type = :passenger
   end
 end

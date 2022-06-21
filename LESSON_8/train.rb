@@ -23,9 +23,9 @@ class Train
     @speed = 0
     @wagons = []
     @route = nil
+    validate!
     @@trains.push(self)
     register_instance
-    validate!
   end
 
   class << self

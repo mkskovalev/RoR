@@ -13,6 +13,7 @@ class CargoWagon < Wagon
     @type = :cargo
     @volume = volume
     @occupied_volume = 0
+    validate!
   end
 
   def occupy_volume(count)

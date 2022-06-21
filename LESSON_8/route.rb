@@ -17,9 +17,9 @@ class Route
     @first = first
     @last = last
     @stations = [first, last]
+    validate!
     @@routes.push(self)
     register_instance
-    validate!
   end
 
   def self.all

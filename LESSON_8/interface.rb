@@ -8,10 +8,8 @@ require './passenger_train'
 require './cargo_train'
 require './passenger_wagon'
 require './cargo_wagon'
-require './modules/validation'
 
 class Interface
-  include Validation
 
   def initialize
     @first_last_stations = []
@@ -47,11 +45,12 @@ class Interface
   def create_station
     puts 'Введите название станции:'
     input = gets.chomp
-    @station = Station.new(input)
-    puts "Станция #{@station.name} создана"
+    Station.new(input)
   rescue => e
     puts e
     retry
+  else
+    puts "Станция создана"
   end
 
   def add_station_to_route(count)
@@ -125,26 +124,30 @@ class Interface
 
     case type
     when 1
-      @train = PassengerTrain.new(number)
+      PassengerTrain.new(number)
     when 2
-      @train = CargoTrain.new(number)
+      CargoTrain.new(number)
     else
       puts 'Введено неверное значение!'
     end
 
-    puts 'Поезд создан!'
-  rescue StandardError
-    puts 'Неверный формат номера поезда. Попробуйте еще раз.'
+  rescue => e
+    puts e
     retry
+  else
+    puts 'Поезд создан!'
   end
 
   def create_route
     add_station_to_route(0)
     add_station_to_route(1)
-    @route = Route.new(@first_last_stations[0], @first_last_stations[1])
-    puts 'Маршрут создан!'
-  rescue => e
-    puts e
+    begin
+      Route.new(@first_last_stations[0], @first_last_stations[1])
+    rescue => e
+      puts e
+    else
+      puts "Маршрут #{@first_last_stations[0].name}-#{@first_last_stations[1].name} создан."
+    end
   end
 
   def edit_route

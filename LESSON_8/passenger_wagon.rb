@@ -13,6 +13,7 @@ class PassengerWagon < Wagon
     @seats = seats
     @type = :passenger
     @occupied_seats = 0
+    validate!
   end
 
   def occupy_seat
